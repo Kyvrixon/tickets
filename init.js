@@ -18,7 +18,9 @@ const configFile = fs.readFileSync("./config.yml", "utf8");
 globalThis.config = yaml.parse(configFile);
 
 let dbPath = "";
-if (config.dbPath?.includes("{root}")) {
+if (config.dbPath === undefined) {
+  dbPath = path.join(__dirname, "data");
+} else if (config.dbPath?.includes("{root}")) {
   dbPath = config.dbPath.replace("{root}", __dirname);
 } else {
   dbPath = config.dbPath;
